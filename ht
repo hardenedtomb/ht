@@ -57,8 +57,8 @@ case "$1" in
   init) __exec__ open_disk && { __exec__ init_mapper && __exec__ open_mapper && { __exec__ prep_dir ||  { __exec__ kill_gpg && __exec__ lock_mapper; } } || __exec__ lock_disk; } ;;
   open) __exec__ open_disk && { __exec__ open_mapper || __exec__ lock_disk; } ;;
   lock) __exec__ kill_gpg && __exec__ sync && { __exec__ lock_mapper || true; } && __exec__ lock_disk ;;
-  addk) shift && __exec__ [[ $1 =~ ^[a-zA-Z0-9/]+$ ]] && { __exec__ fadd_data "$@" && __exec__ save_git $1; } || __exec__ drop_git ;;
-  getk) shift && __exec__ [[ $1 =~ ^[a-zA-Z0-9/]+$ ]] && __exeo__ fget_data "$@" ;;
-  lstk) shift && __exec__ [[ ${1:-/} =~ ^[a-zA-Z0-9/]+$ ]] && __exeo__ flst_data "$@" ;;
+  addk) shift && { __exec__ fadd_data "$@" && __exec__ save_git $1; } || __exec__ drop_git ;;
+  getk) shift && __exeo__ fget_data "$@" ;;
+  lstk) shift && __exeo__ flst_data "$@" ;;
   *) >&2 echo "view source to see the usage at $0" && exit 1 ;;
 esac
